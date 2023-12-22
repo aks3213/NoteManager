@@ -1,0 +1,30 @@
+{
+  "development": {
+    "username": "axy",
+    "password": "axy",
+    "database": "NoteManager",
+    "host": "localhost",
+    "dialect": "mssql",
+    "port": 1433,
+    "dialectOptions": {
+      "options": {
+        "instanceName": "SQLEXPRESS",
+        "trustServerCertificate": true
+      }
+    }
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
