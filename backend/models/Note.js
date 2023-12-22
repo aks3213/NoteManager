@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 notEmpty: true,
             },
-        }
+        },
+        IsArchived: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
     });
 
     return Note;

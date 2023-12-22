@@ -1,31 +1,57 @@
 const { Note } = require('../models');
 
 async function getAllNotes() {
-    return await Note.findAll();
+    console.log('executing getAllNotes');
+
+    const findAllRes = await Note.findAll();
+
+    console.log('find all res: ', findAllRes);
+
+    return findAllRes;
 }
 
 async function getNoteById(id) {
-    return await Note.findOne({
+    console.log('executing getNoteById: ', id);
+
+    const findOneRes = await Note.findOne({
         where: {
             id: id
         }
     });
+
+    console.log('find one by id res: ', findOneRes);
+
+    return findOneRes;
 }
 
 async function createNote(note) {
-    return await Note.create(note)
+    console.log('executing createNote: ', note);
+
+    const createNoteRes = await Note.create(note);
+
+    console.log('create note res: ', createNoteRes);
+
+    return createNoteRes.dataValues;
 }
 
 async function deleteNote(id) {
-    return await Note.destroy({
+    console.log('executing deleteNote: ', id);
+
+    const deleteRes = await Note.destroy({
         where: {
             id: id,
         },
     });
+
+    console.log('delete note res: ', deleteRes);
+
+    return deleteRes;
 }
 
 async function updateNote(id, note) {
-    return await Note.update(
+    console.log('executing updateNote: ', id, note);
+
+    const updateNoteRes = await Note.update(
         {
             ...note,
         },
@@ -34,7 +60,11 @@ async function updateNote(id, note) {
                 id: id,
             }
         },
-    )
+    );
+
+    console.log('update note res: ', updateNoteRes);
+
+    return updateNoteRes;
 }
 
 module.exports = {
