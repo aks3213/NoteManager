@@ -1,17 +1,23 @@
 const { Note } = require('../models');
 
-async function getAllNotes(filter) {
+async function getAllNotes(filter, offset, limit) {
     console.log('executing getAllNotes with possible filter: ', filter);
 
     const params = {
         where: filter,
     }
+    if (offset) {
+        params.offset = parseInt(offset);
+    }
+    if (limit) {
+        params.limit = parseInt(limit);
+    }
     console.log('params: ', params);
 
-    const findAllRes = await Note.findAll(params);
+    const findAllRes = await Note.findAndCountAll(params);
 
     console.log('find all with filter res: ', findAllRes);
-    return findAllRes;
+    return { Notes: findAllRes.rows, TotalCount: findAllRes.count };
 }
 
 async function getNoteById(id) {

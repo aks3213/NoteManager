@@ -14,14 +14,14 @@ app.use(cors());
 
 // route for getting all available notes in the system
 // list notes filtered by IsArchived when passed isArchived in query params 
-app.get('/notes/', async (req, res) => {
+app.get('/notes', async (req, res) => {
     console.log('query params: ', req.query);
     const filter = {};
     if (req.query.isArchived) {
         filter.IsArchived = req.query.isArchived
     }
     try {
-        const notes = await getAllNotes(filter);
+        const notes = await getAllNotes(filter, req.query.offset, req.query.limit);
         res.send(notes);
     } catch (error) {
         console.error('Error fetching all notes:', error.message);
@@ -68,7 +68,7 @@ app.delete('/notes/:id', async (req, res) => {
 });
 
 // route to create a new note
-app.post('/notes/', async (req, res) => {
+app.post('/notes', async (req, res) => {
     try {
         console.log("Create a new note request: ", req.body);
         const createdNote = await createNote(req.body);
