@@ -13,9 +13,15 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // route for getting all available notes in the system
-app.get('/', async (req, res) => {
+// list notes filtered by IsArchived when passed isArchived in query params 
+app.get('/notes/', async (req, res) => {
+    console.log('query params: ', req.query);
+    const filter = {};
+    if (req.query.isArchived) {
+        filter.IsArchived = req.query.isArchived
+    }
     try {
-        const notes = await getAllNotes();
+        const notes = await getAllNotes(filter);
         res.send(notes);
     } catch (error) {
         console.error('Error fetching all notes:', error.message);
@@ -24,7 +30,7 @@ app.get('/', async (req, res) => {
 });
 
 // route to fetch note details by note id
-app.get('/:id', async (req, res) => {
+app.get('/notes/:id', async (req, res) => {
     try {
         const note = await getNoteById(req.params.id);
         if (!note) {
@@ -38,7 +44,9 @@ app.get('/:id', async (req, res) => {
 });
 
 // route to update a note given id 
-app.put('/:id', async (req, res) => {
+// update note title, description, etc
+// archive/unarchive notes 
+app.put('/notes/:id', async (req, res) => {
     try {
         await updateNote(req.params.id, req.body);
         res.send();
@@ -49,7 +57,7 @@ app.put('/:id', async (req, res) => {
 });
 
 // route to delete a note by id
-app.delete('/:id', async (req, res) => {
+app.delete('/notes/:id', async (req, res) => {
     try {
         await deleteNote(req.params.id);
         res.send({});
@@ -60,7 +68,7 @@ app.delete('/:id', async (req, res) => {
 });
 
 // route to create a new note
-app.post('/', async (req, res) => {
+app.post('/notes/', async (req, res) => {
     try {
         console.log("Create a new note request: ", req.body);
         const createdNote = await createNote(req.body);

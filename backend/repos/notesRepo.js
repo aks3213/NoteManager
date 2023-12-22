@@ -1,12 +1,16 @@
 const { Note } = require('../models');
 
-async function getAllNotes() {
-    console.log('executing getAllNotes');
+async function getAllNotes(filter) {
+    console.log('executing getAllNotes with possible filter: ', filter);
 
-    const findAllRes = await Note.findAll();
+    const params = {
+        where: filter,
+    }
+    console.log('params: ', params);
 
-    console.log('find all res: ', findAllRes);
+    const findAllRes = await Note.findAll(params);
 
+    console.log('find all with filter res: ', findAllRes);
     return findAllRes;
 }
 
