@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   ChakraProvider, useDisclosure, Button,
 } from '@chakra-ui/react';
+import { CiFilter } from "react-icons/ci";
 import './App.css';
 import { getNotes, deleteNote, createNote, updateNote } from './service/NoteService';
 import Note from './components/Note';
@@ -9,37 +10,35 @@ import EditNote from './components/EditNote';
 import DeleteNote from './components/DeleteNote';
 import CreateNote from './components/CreateNote';
 import ArchiveNote from './components/ArchiveNote';
+import Filter from './components/Filter';
 
 const emptyNote = { id: '', Title: '', Description: '', IsArchived: false, createdAt: 0, updatedAt: 0 };
 function App() {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(emptyNote);
+  const [filter, setFilter] = useState({});
   const editNoteModal = useDisclosure();
   const deleteNoteModal = useDisclosure();
   const archiveNoteModal = useDisclosure();
   const createNoteModal = useDisclosure();
+  const filterModal = useDisclosure();
 
   const openEditNoteModal = (note) => {
-    deleteNoteModal.onClose();
-    createNoteModal.onClose();
-    archiveNoteModal.onClose();
     setSelectedNote(note);
     editNoteModal.onOpen();
   }
 
   const openDeleteNoteModal = (note) => {
-    editNoteModal.onClose();
-    createNoteModal.onClose();
-    archiveNoteModal.onClose();
     setSelectedNote(note);
     deleteNoteModal.onOpen();
   }
 
   const openCreateNoteModal = () => {
-    deleteNoteModal.onClose();
-    editNoteModal.onClose();
-    archiveNoteModal.onClose();
     createNoteModal.onOpen();
+  }
+
+  const handleFilterModal = () => {
+    filterModal.onOpen();
   }
 
   const openArchiveNoteModal = (note) => {
@@ -89,6 +88,17 @@ function App() {
   }
 
   useEffect(() => {
+    console.log('filter ', filter)
+    getNotes(filter)
+      .then(response => {
+        setNotes(response.Notes)
+        setFilter(filter);
+        filterModal.onClose();
+      })
+      .catch(error => console.error('Error fetching notes:', error));
+  }, [filter,]);
+
+  useEffect(() => {
     // Fetch notes from the backend API
     getNotes()
       .then(response => {
@@ -107,13 +117,15 @@ function App() {
         <div style={{ background: 'lightblue', width: '100%' }}>
           <h1 style={{ fontWeight: 'bold', fontSize: 50, marginLeft: 30 }}>Notes</h1>
         </div>
-        <div style={{ maxWidth: 700, padding: 30, }}>
+        <div style={{ width: 700, padding: 30, }}>
           <CreateNote isOpen={createNoteModal.isOpen} onClose={createNoteModal.onClose} onOpen={createNoteModal.onOpen} handleCreateNote={handleCreateNote} />
           <EditNote isOpen={editNoteModal.isOpen} onClose={editNoteModal.onClose} onOpen={editNoteModal.onOpen} handleEditNote={handleEditNote} id={selectedNote.id} title={selectedNote.Title} description={selectedNote.Description} />
           <DeleteNote isOpen={deleteNoteModal.isOpen} onClose={deleteNoteModal.onClose} onOpen={deleteNoteModal.onOpen} handleDeleteNote={handleDeleteNote} note={selectedNote} />
           <ArchiveNote isOpen={archiveNoteModal.isOpen} onClose={archiveNoteModal.onClose} onOpen={archiveNoteModal.onOpen} handleArchiveNote={handleArchiveNote} note={selectedNote} />
-          <div style={{ display: 'flex', justifyContent: 'end' }}>
+          <Filter setFilter={setFilter} filter={filter} isOpen={filterModal.isOpen} onClose={filterModal.onClose} onOpen={filterModal.onOpen} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Button alignSelf={'end'} onClick={openCreateNoteModal} colorScheme='green'>New note</Button>
+            <CiFilter size={36} style={{ marginRight: 10 }} onClick={handleFilterModal} />
           </div>
           <ul style={{ listStyleType: 'none' }}>
             {notes?.map((note) => (
