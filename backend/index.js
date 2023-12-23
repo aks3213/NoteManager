@@ -48,8 +48,8 @@ app.get('/notes/:id', async (req, res) => {
 // archive/unarchive notes 
 app.put('/notes/:id', async (req, res) => {
     try {
-        await updateNote(req.params.id, req.body);
-        res.send();
+        const updatedNote = await updateNote(req.params.id, req.body);
+        res.send(updatedNote);
     } catch (error) {
         console.error('Error updating note:', error.message);
         res.status(500).send('Internal Server Error');

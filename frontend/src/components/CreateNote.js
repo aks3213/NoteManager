@@ -8,32 +8,22 @@ import {
     Textarea,
     Input,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-function EditNote({
-    id,
-    title,
-    description,
+function CreateNote({
     isOpen,
     onClose,
-    handleEditNote,
+    handleCreateNote,
 }) {
-    const [identifier, setIdentifier] = useState(id);
-    const [updatedTitle, setUpdatedTitle] = useState(title);
-    const [updatedDescription, setUpdatedDescription] = useState(description);
-
-    useEffect(() => {
-        setUpdatedTitle(title);
-        setUpdatedDescription(description);
-        setIdentifier(id);
-    }, [title, description, id])
-
-    const handleUpdate = (event) => {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const handleSubmit = (event) => {
         event.preventDefault();
 
-        handleEditNote({ id: identifier, Title: updatedTitle, Description: updatedDescription, })
+        handleCreateNote({ Title: title, Description: description })
+        setTitle('');
+        setDescription('')
     };
-
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -44,32 +34,33 @@ function EditNote({
                             <label style={{ fontWeight: 500, fontSize: 30, marginTop: 20, marginBottom: 20 }}>Title</label>
                             <Input
                                 placeholder='Enter title for the note...'
-                                value={updatedTitle}
-                                onChange={(event) => setUpdatedTitle(event.target.value)}
+                                value={title}
+                                onChange={(event) => setTitle(event.target.value)}
                                 style={{ paddingTop: 20, paddingBottom: 20 }}
                             />
                         </div>
                         <div style={{ marginTop: 10, marginBottom: 10 }} >
                             <label style={{ fontWeight: 500, fontSize: 30 }}>Description</label>
                             <Textarea
-                                value={updatedDescription}
+                                value={description}
                                 placeholder='Enter detailed description note...'
-                                onChange={(event) => setUpdatedDescription(event.target.value)}
+                                onChange={(event) => setDescription(event.target.value)}
                             />
                         </div>
                     </ModalBody>
+
                     <ModalFooter>
                         <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            Close
+                            Cancel
                         </Button>
-                        <Button colorScheme='green' onClick={handleUpdate}>
-                            Update
+                        <Button colorScheme='green' onClick={handleSubmit}>
+                            Create
                         </Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal>
+            </Modal >
         </>
     )
 }
 
-export default EditNote;
+export default CreateNote;

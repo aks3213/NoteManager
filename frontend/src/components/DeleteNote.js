@@ -7,6 +7,7 @@ import {
     ModalBody,
     Button,
 } from '@chakra-ui/react';
+import { humanReadableTime } from '../utils';
 
 function DeleteNote({
     note,
@@ -23,11 +24,12 @@ function DeleteNote({
                         <h2 style={{ fontWeight: 'bold', fontSize: 30, }}>Are you sure you want delete note?</h2>
                     </ModalHeader>
 
-                    <ModalBody>
-                        <h3 style={{ fontWeight: 'bold', fontSize: 20, border: 2, borderColor: 'blue', margin: 10 }}>
+                    <ModalBody style={{ margin: 10 }}>
+                        <h3 style={{ fontWeight: 'bold', fontSize: 30, border: 2, borderColor: 'blue' }}>
                             {note?.Title}
                         </h3>
-                        <p style={{ margin: 10 }}>
+                        <hr style={{ marginTop: 10, marginBottom: 20, }} />
+                        <p style={{ fontSize: 25, margin: 10 }}>
                             {note?.Description}
                         </p>
                     </ModalBody>
