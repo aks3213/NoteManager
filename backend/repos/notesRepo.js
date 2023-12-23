@@ -5,6 +5,7 @@ async function getAllNotes(filter, offset, limit) {
 
     const params = {
         where: filter,
+        order: [['updatedAt', 'DESC']],
     }
     if (offset) {
         params.offset = parseInt(offset);
@@ -74,7 +75,7 @@ async function updateNote(id, note) {
 
     console.log('update note res: ', updateNoteRes);
 
-    return updateNoteRes;
+    return await getNoteById(id);
 }
 
 module.exports = {
