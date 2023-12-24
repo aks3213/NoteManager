@@ -23,7 +23,7 @@ function Filter({
 
     useEffect(() => {
         setArchived(populateArchiveFilter(filter));
-        setCategories(filter.categories);
+        setCategories(filter.categories ? filter.categories : '');
     }, [filter,])
 
     const applyFilter = () => {

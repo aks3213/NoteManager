@@ -88,7 +88,6 @@ function App() {
   }
 
   useEffect(() => {
-    console.log('filter ', filter)
     getNotes(filter)
       .then(response => {
         setNotes(response.Notes)
