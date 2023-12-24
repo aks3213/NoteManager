@@ -17,7 +17,7 @@ async function createCategoriesIfDoNotExist(categories) {
     if (categoriesToBeCreated?.length > 0) {
         const bulkCreateRes = await Category.bulkCreate(categoriesToBeCreated);
         console.log('bulkCreate res: ', bulkCreateRes);
-        res = [...res, bulkCreateRes]
+        res = [...res, ...bulkCreateRes]
     }
     res = [...res, ...existingCategories];
     console.log('all categories: ', JSON.stringify(res));
