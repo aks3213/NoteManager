@@ -1,5 +1,9 @@
 import { EditIcon, DeleteIcon, } from '@chakra-ui/icons';
 import { MdArchive, MdUnarchive } from "react-icons/md";
+import {
+    Stack,
+} from '@chakra-ui/react';
+import Badge from './atoms/Badge';
 
 function Note({
     note,
@@ -27,6 +31,12 @@ function Note({
                 }
             </p>
             <label style={{ fontWeight: 500 }}>Last updated: </label><text>{note.updatedAt}</text>
+            <hr style={{ marginTop: 10, marginBottom: 20, }} />
+            <Stack direction={'row'}>
+                {
+                    note.Categories?.map((category) => <Badge label={category.Name} />)
+                }
+            </Stack>
         </div >
     )
 }

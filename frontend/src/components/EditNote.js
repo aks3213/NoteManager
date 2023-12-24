@@ -14,6 +14,7 @@ function EditNote({
     id,
     title,
     description,
+    categories,
     isOpen,
     onClose,
     handleEditNote,
@@ -21,17 +22,25 @@ function EditNote({
     const [identifier, setIdentifier] = useState(id);
     const [updatedTitle, setUpdatedTitle] = useState(title);
     const [updatedDescription, setUpdatedDescription] = useState(description);
+    const [updatedCategories, setUpdatedCategories] = useState('');
 
     useEffect(() => {
         setUpdatedTitle(title);
         setUpdatedDescription(description);
         setIdentifier(id);
-    }, [title, description, id])
+        setUpdatedCategories(categories.map((category) => category.Name).join(','));
+    }, [title, description, id, categories])
 
     const handleUpdate = (event) => {
         event.preventDefault();
 
-        handleEditNote({ id: identifier, Title: updatedTitle, Description: updatedDescription, })
+        handleEditNote({
+            id: identifier, Title: updatedTitle, Description: updatedDescription, Categories: updatedCategories.split(',').map((category => {
+                return {
+                    Name: category.trim()
+                }
+            }))
+        });
     };
 
     return (
@@ -56,6 +65,11 @@ function EditNote({
                                 placeholder='Enter detailed description note...'
                                 onChange={(event) => setUpdatedDescription(event.target.value)}
                             />
+                        </div>
+                        <div>
+                            <label style={{ fontWeight: 500, fontSize: 30 }}>Categories: </label>
+                            <Input value={updatedCategories} onChange={((event) => setUpdatedCategories(event.target.value))} />
+                            <label><b>Note:</b> Add multiple categories saperated by comma(,).</label>
                         </div>
                     </ModalBody>
                     <ModalFooter>

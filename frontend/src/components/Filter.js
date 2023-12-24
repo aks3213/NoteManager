@@ -7,6 +7,7 @@ import {
     ModalBody,
     Button,
     Select,
+    Input,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { populateArchiveFilter } from '../utils';
@@ -18,10 +19,12 @@ function Filter({
     onClose,
 }) {
     const [archived, setArchived] = useState('All');
+    const [categories, setCategories] = useState('');
 
     useEffect(() => {
         setArchived(populateArchiveFilter(filter));
-    }, [filter])
+        setCategories(filter.categories);
+    }, [filter,])
 
     const applyFilter = () => {
         const filtersTemp = {}
@@ -30,7 +33,9 @@ function Filter({
         } else if (archived === 'Unarchived') {
             filtersTemp.isArchived = false;
         }
-
+        if (categories.length > 0) {
+            filtersTemp.categories = categories;
+        }
         setFilter(filtersTemp);
     }
 
@@ -51,11 +56,15 @@ function Filter({
                         <h2 style={{ fontWeight: 'bold', fontSize: 30, }}>Filter notes</h2>
                     </ModalHeader>
                     <ModalBody style={{ margin: 10 }}>
+                        <label>Filter by Archive:</label>
                         <Select variant='outline' defaultValue={archived} onChange={handleArchiveFilterChange} >
                             <option value='All'>All</option>
                             <option value='Archived'>Archived</option>
                             <option value='Unarchived'>Unarchived</option>
                         </Select>
+                        <label>Filter by categories: </label>
+                        <Input value={categories} onChange={((event) => setCategories(event.target.value))} />
+                        <label><b>Note:</b> Add multiple categories saperated by comma(,).</label>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='gray' mr={3} onClick={resetFilter}>

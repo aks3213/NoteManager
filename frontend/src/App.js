@@ -119,7 +119,7 @@ function App() {
         </div>
         <div style={{ width: 700, padding: 30, }}>
           <CreateNote isOpen={createNoteModal.isOpen} onClose={createNoteModal.onClose} onOpen={createNoteModal.onOpen} handleCreateNote={handleCreateNote} />
-          <EditNote isOpen={editNoteModal.isOpen} onClose={editNoteModal.onClose} onOpen={editNoteModal.onOpen} handleEditNote={handleEditNote} id={selectedNote.id} title={selectedNote.Title} description={selectedNote.Description} />
+          <EditNote isOpen={editNoteModal.isOpen} onClose={editNoteModal.onClose} onOpen={editNoteModal.onOpen} handleEditNote={handleEditNote} id={selectedNote.id} title={selectedNote.Title} description={selectedNote.Description} categories={selectedNote.Categories ? selectedNote.Categories : []} />
           <DeleteNote isOpen={deleteNoteModal.isOpen} onClose={deleteNoteModal.onClose} onOpen={deleteNoteModal.onOpen} handleDeleteNote={handleDeleteNote} note={selectedNote} />
           <ArchiveNote isOpen={archiveNoteModal.isOpen} onClose={archiveNoteModal.onClose} onOpen={archiveNoteModal.onOpen} handleArchiveNote={handleArchiveNote} note={selectedNote} />
           <Filter setFilter={setFilter} filter={filter} isOpen={filterModal.isOpen} onClose={filterModal.onClose} onOpen={filterModal.onOpen} />

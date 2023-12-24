@@ -17,12 +17,20 @@ function CreateNote({
 }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [categories, setCategories] = useState('');
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        handleCreateNote({ Title: title, Description: description })
+        handleCreateNote({
+            Title: title, Description: description, Categories: categories.split(',').map((category => {
+                return {
+                    Name: category.trim()
+                }
+            }))
+        });
         setTitle('');
         setDescription('')
+        setCategories('');
     };
     return (
         <>
@@ -46,6 +54,11 @@ function CreateNote({
                                 placeholder='Enter detailed description note...'
                                 onChange={(event) => setDescription(event.target.value)}
                             />
+                        </div>
+                        <div>
+                            <label style={{ fontWeight: 500, fontSize: 30 }}>Categories: </label>
+                            <Input value={categories} onChange={((event) => setCategories(event.target.value))} />
+                            <label><b>Note:</b> Add multiple categories saperated by comma(,).</label>
                         </div>
                     </ModalBody>
 
