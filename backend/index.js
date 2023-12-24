@@ -20,6 +20,9 @@ app.get('/notes', async (req, res) => {
     if (req.query.isArchived) {
         filter.IsArchived = req.query.isArchived
     }
+    if (req.query.categories) {
+        filter.Categories = req.query.categories.split(',').map(category => category.trim());
+    }
     try {
         const notes = await getAllNotesWithCategories(filter, req.query.offset, req.query.limit);
         res.send(notes);

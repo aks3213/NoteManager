@@ -20,7 +20,7 @@ async function createCategoriesIfDoNotExist(categories) {
         res = [...res, bulkCreateRes]
     }
     res = [...res, ...existingCategories];
-    console.log('all categories: ', res);
+    console.log('all categories: ', JSON.stringify(res));
 
     return res;
 }

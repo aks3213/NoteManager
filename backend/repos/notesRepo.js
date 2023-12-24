@@ -1,3 +1,4 @@
+const { Sequelize, } = require('sequelize');
 const { Note } = require('../models');
 const { Category } = require('../models');
 const { createCategoriesIfDoNotExist } = require('./categoryRepo');
@@ -84,7 +85,6 @@ async function getAllNotesWithCategories(filter, offset, limit) {
     console.log('executing getAllNotesWithCategories: ', filter, offset, limit);
 
     const params = {
-        where: filter,
         order: [['updatedAt', 'DESC']],
         include: [
             {
@@ -100,7 +100,19 @@ async function getAllNotesWithCategories(filter, offset, limit) {
     if (limit) {
         params.limit = parseInt(limit);
     }
-    console.log('params: ', params);
+    if (filter.IsArchived) {
+        params.where = {
+            IsArchived: filter.IsArchived,
+        }
+    }
+    if (filter.Categories) {
+        params.include[0].where = {
+            Name: {
+                [Sequelize.Op.in]: filter.Categories,
+            },
+        };
+    }
+    console.log('params: ', JSON.stringify(params));
 
     const findAllRes = await Note.findAndCountAll(params);
 
@@ -135,7 +147,7 @@ async function createNoteWithCategories(note, categories) {
 
     const createNoteRes = await Note.create(note);
 
-    console.log('create note res: ', createNoteRes);
+    console.log('create note res: ', JSON.stringify(createNoteRes));
 
     await createNoteRes.addCategories(allCategories);
     console.log('added categories to note.');
