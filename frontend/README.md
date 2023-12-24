@@ -1,15 +1,30 @@
-# How to run backend
+# How to run backend on windows by running script
 1. Update SQL server credentials in `backend\config\config.json`
 2. Go to backend folder `cd backend`
-3. Run `npm run setupwindows`. This setup script will
-    - Create `NoteManager` database in SQL.
-    - Install all required dependencies to run backend
+3. Run `npm run setupwindows`. This setup script will perform all setup steps.
 4. Run `npm start` to run backend server
 
-# How to run frontend
+# How to run frontend on windows by running script
 1. Go to backend folder `cd frontend`
 2. Run `npm run setupwindows` to install all dependencies required for frontend
 3. Run `npm start` to run frontend localhost
+
+---
+---
+---
+# How to run backend manually
+1. Update SQL server credentials in `backend\config\config.json`
+2. Go to backend folder `cd backend`
+3. Create database named `NoteManager` on SQL server
+4. Run `npm install` to install all required dependencies
+4. Run `npm start` to run backend server
+
+# How to run frontend on windows
+1. Go to backend folder `cd frontend`
+2. Run `npm install` to install all dependencies required for frontend
+3. Run `npm start` to run frontend localhost
+
+UI will run on http://localhost:3000/
 
 ---
 ---
