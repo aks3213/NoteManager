@@ -184,6 +184,22 @@ async function updateNoteWithCategories(id, note, categories) {
     return await getNoteWithCategoriesById(id);
 }
 
+async function deleteNoteAndCategoryAssociateion(id) {
+    console.log('executing deleteNoteAndCategoryAssociateion: ', id);
+
+    const noteToDelete = await Note.findByPk(id);
+
+    if (!noteToDelete) {
+        console.log(`Note with ID ${id} not found.`);
+        return null;
+    }
+
+    await noteToDelete.setCategories([]);
+
+    await noteToDelete.destroy();
+
+    console.log(`Note with ID ${id} and its associations with categories deleted successfully.`);
+}
 
 module.exports = {
     getAllNotes: getAllNotes,
@@ -195,4 +211,5 @@ module.exports = {
     updateNoteWithCategories: updateNoteWithCategories,
     getNoteWithCategoriesById: getNoteWithCategoriesById,
     createNoteWithCategories: createNoteWithCategories,
+    deleteNoteAndCategoryAssociateion: deleteNoteAndCategoryAssociateion,
 }

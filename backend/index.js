@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 
 const db = require('./models');
-const { getAllNotesWithCategories, getNoteWithCategoriesById, deleteNote, createNoteWithCategories, updateNoteWithCategories } = require('./repos/notesRepo');
+const { getAllNotesWithCategories, getNoteWithCategoriesById, deleteNoteAndCategoryAssociateion, createNoteWithCategories, updateNoteWithCategories } = require('./repos/notesRepo');
 
 var port = process.env.PORT || 8090;
 
@@ -70,7 +70,7 @@ app.put('/notes/:id', async (req, res) => {
 // route to delete a note by id
 app.delete('/notes/:id', async (req, res) => {
     try {
-        await deleteNote(req.params.id);
+        await deleteNoteAndCategoryAssociateion(req.params.id);
         res.send({});
     } catch (error) {
         console.error('Error deleting note:', error.message);
