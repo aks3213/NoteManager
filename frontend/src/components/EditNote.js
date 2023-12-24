@@ -35,11 +35,14 @@ function EditNote({
         event.preventDefault();
 
         handleEditNote({
-            id: identifier, Title: updatedTitle, Description: updatedDescription, Categories: updatedCategories.split(',').map((category => {
+            id: identifier,
+            Title: updatedTitle,
+            Description: updatedDescription,
+            Categories: updatedCategories.split(',').map((category => category.trim())).filter((category) => category.length > 0).map((category => {
                 return {
-                    Name: category.trim()
+                    Name: category
                 }
-            }))
+            })),
         });
     };
 

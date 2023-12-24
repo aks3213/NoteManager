@@ -22,11 +22,13 @@ function CreateNote({
         event.preventDefault();
 
         handleCreateNote({
-            Title: title, Description: description, Categories: categories.split(',').map((category => {
+            Title: title,
+            Description: description,
+            Categories: categories.split(',').map((category => category.trim())).filter((category) => category.length > 0).map((category => {
                 return {
-                    Name: category.trim()
+                    Name: category
                 }
-            }))
+            })),
         });
         setTitle('');
         setDescription('')
