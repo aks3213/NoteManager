@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 
 const db = require('./models');
-const { getAllNotes, getNoteById, deleteNote, createNote, updateNote } = require('./repos/notesRepo');
+const { getAllNotesWithCategories, getNoteWithCategoriesById, deleteNote, createNoteWithCategories, updateNoteWithCategories } = require('./repos/notesRepo');
 
 var port = process.env.PORT || 8090;
 
@@ -21,7 +21,7 @@ app.get('/notes', async (req, res) => {
         filter.IsArchived = req.query.isArchived
     }
     try {
-        const notes = await getAllNotes(filter, req.query.offset, req.query.limit);
+        const notes = await getAllNotesWithCategories(filter, req.query.offset, req.query.limit);
         res.send(notes);
     } catch (error) {
         console.error('Error fetching all notes:', error.message);
@@ -32,7 +32,7 @@ app.get('/notes', async (req, res) => {
 // route to fetch note details by note id
 app.get('/notes/:id', async (req, res) => {
     try {
-        const note = await getNoteById(req.params.id);
+        const note = await getNoteWithCategoriesById(req.params.id);
         if (!note) {
             res.status(400).send("note note found with given id");
         }
@@ -48,7 +48,15 @@ app.get('/notes/:id', async (req, res) => {
 // archive/unarchive notes 
 app.put('/notes/:id', async (req, res) => {
     try {
-        const updatedNote = await updateNote(req.params.id, req.body);
+        const body = req.body;
+        const note = {};
+        let categories = [];
+        if ('Title' in body) note.Title = body.Title;
+        if ('Description' in body) note.Description = body.Description;
+        if ('IsArchived' in body) note.IsArchived = body.IsArchived;
+        if ('Categories' in body) categories = body.Categories;
+
+        const updatedNote = await updateNoteWithCategories(req.params.id, note, categories);
         res.send(updatedNote);
     } catch (error) {
         console.error('Error updating note:', error.message);
@@ -71,7 +79,8 @@ app.delete('/notes/:id', async (req, res) => {
 app.post('/notes', async (req, res) => {
     try {
         console.log("Create a new note request: ", req.body);
-        const createdNote = await createNote(req.body);
+        const { Title, Description, Categories } = req.body;
+        const createdNote = await createNoteWithCategories({ Title, Description, }, Categories);
         res.send(createdNote);
     } catch (error) {
         console.error('Error creating new note:', error.message);
