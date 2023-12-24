@@ -1,13 +1,14 @@
 # How to run backend
-1. Create a database named `NoteManager` in SQl server
-2. Update SQL server credentials in `backend\config\config.json`
-3. Go to backend folder `cd backend`
-4. Run `npm install` to install all dependencies required for backend
-5. Run `npm start` to run backend server
+1. Update SQL server credentials in `backend\config\config.json`
+2. Go to backend folder `cd backend`
+3. Run `npm run setupwindows`. This setup script will
+    - Create `NoteManager` database in SQL.
+    - Install all required dependencies to run backend
+4. Run `npm start` to run backend server
 
 # How to run frontend
-1. Go to backend folder `cd backend`
-2. Run `npm install` to install all dependencies required for backend
+1. Go to backend folder `cd frontend`
+2. Run `npm run setupwindows` to install all dependencies required for frontend
 3. Run `npm start` to run frontend localhost
 
 ---
